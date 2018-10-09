@@ -1,0 +1,19 @@
+{
+  "name": "sample_chaincode",
+  "version": "1.0.0",
+  "description": "sample chaincode",
+  "main": "index.js",
+  "engines": {
+		"node": ">=8.4.0",
+		"npm": ">=5.3.0"
+	},
+  "scripts": {
+    "start" : "node index.js"
+  },
+	"engine-strict": true,
+  "author": "Shashank",
+  "license": "ISC",
+  "dependencies": {
+    "fabric-shim": "^1.2.0"
+  }
+}

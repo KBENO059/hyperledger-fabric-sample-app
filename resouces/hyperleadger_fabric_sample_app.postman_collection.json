@@ -1,0 +1,443 @@
+{
+	"info": {
+		"_postman_id": "bb70dd20-92d7-4557-82e5-05277e252358",
+		"name": "hyperleadger_fabric_sample",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1.Enroll user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "shashank",
+							"sessionValue": "shashank",
+							"type": "text"
+						},
+						{
+							"key": "orgName",
+							"value": "Org1",
+							"sessionValue": "Org1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"user"
+					]
+				},
+				"description": "Register and enroll new users in Organization.\nYou can change organization in request body.\n"
+			},
+			"response": []
+		},
+		{
+			"name": "2. Create Channel",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzY3OTA5NTksInVzZXJuYW1lIjoic2hhc2hpIiwib3JnTmFtZSI6Ik9yZzIiLCJpYXQiOjE1MzY3NTQ5NTl9.SeFMQtDZurPHtyflyZ7NhmDrXvkVGYBw6qgPU1_1Ikk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "channelName",
+							"value": "mychannel",
+							"sessionValue": "shashank",
+							"type": "text"
+						},
+						{
+							"key": "channelConfigPath",
+							"value": "../artifacts/channel/channel.tx",
+							"sessionValue": "Org1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/channels",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"channels"
+					]
+				},
+				"description": "Create Channel request\n\nYou need to update token.\n\nspecify the channel.tx file path ."
+			},
+			"response": []
+		},
+		{
+			"name": "3. Join peers to the channel",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzY3OTEwMzYsInVzZXJuYW1lIjoic2hhc2hhbmsiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNjc1NTAzNn0.8yMNxOlNqVOp73J77eWUvClj9Kcg_YGC-V0jLE8kHvw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/channels/mychannel/peers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"channels",
+						"mychannel",
+						"peers"
+					]
+				},
+				"description": "Need to specify the peers want to joint the network. \nUpdate the user token with corresponding peer organization.  "
+			},
+			"response": []
+		},
+		{
+			"name": "4. Install Chaincode to peers",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzY3OTA5NTksInVzZXJuYW1lIjoic2hhc2hpIiwib3JnTmFtZSI6Ik9yZzIiLCJpYXQiOjE1MzY3NTQ5NTl9.SeFMQtDZurPHtyflyZ7NhmDrXvkVGYBw6qgPU1_1Ikk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"],\n\t\"chaincodeName\":\"mycc\",\n\t\"chaincodePath\":\"/home/shashankp/projects/Block-Chain/couchdb-app/artifacts/src/mychaincode\",\n\t\"chaincodeType\": \"node\",\n\t\"metadataPath\":\"/home/shashankp/projects/Block-Chain/couchdb-app/artifacts/src/mychaincode/META-INF/\",\n\t\"chaincodeVersion\":\"v0\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/chaincodes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"chaincodes"
+					]
+				},
+				"description": "update the token with peer organization user token.\nGive the chaincodePath and metadataPath.\nmetadatPath is where all couchdb index saved."
+			},
+			"response": []
+		},
+		{
+			"name": "5. instantiate Chaincode to the channe l",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzY3OTA5NTksInVzZXJuYW1lIjoic2hhc2hpIiwib3JnTmFtZSI6Ik9yZzIiLCJpYXQiOjE1MzY3NTQ5NTl9.SeFMQtDZurPHtyflyZ7NhmDrXvkVGYBw6qgPU1_1Ikk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"],\n\t\"chaincodeName\":\"mycc\",\n\t\"chaincodeVersion\":\"v0\",\n\t\"chaincodeType\": \"node\",\n\t\"args\":[]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/channels/mychannel/chaincodes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"channels",
+						"mychannel",
+						"chaincodes"
+					]
+				},
+				"description": "Update the token with corresponding peer organization user token."
+			},
+			"response": []
+		},
+		{
+			"name": "6. Invoke transaction (Add User)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzY3OTEwMzYsInVzZXJuYW1lIjoic2hhc2hhbmsiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNjc1NTAzNn0.8yMNxOlNqVOp73J77eWUvClj9Kcg_YGC-V0jLE8kHvw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"peers\": [\"peer0.org1.example.com\", \"peer1.org1.example.com\"],\n\t\"fcn\":\"addUser\",\n\t\"args\":[\"user2\",\"200\",\"974269026\",\"Shashank\"]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/channels/mychannel/chaincodes/mycc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"channels",
+						"mychannel",
+						"chaincodes",
+						"mycc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6. Invoke transaction (Add Money)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzY3ODgxNTUsInVzZXJuYW1lIjoic2hhc2hhbmsiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNjc1MjE1NX0.Y7AhBzIbLniswK1sHm6yrnxfa9XptxW5C4AVSqFysAI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"peers\": [\"peer0.org1.example.com\", \"peer1.org1.example.com\"],\n\t\"fcn\":\"addMoney\",\n\t\"args\":[\"A\",\"200\"]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/channels/mychannel/chaincodes/mycc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"channels",
+						"mychannel",
+						"chaincodes",
+						"mycc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6. Invoke transaction (Transfer Money)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzY3OTEwMzYsInVzZXJuYW1lIjoic2hhc2hhbmsiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNjc1NTAzNn0.8yMNxOlNqVOp73J77eWUvClj9Kcg_YGC-V0jLE8kHvw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"peers\": [\"peer0.org1.example.com\", \"peer1.org1.example.com\"],\n\t\"fcn\":\"transferMoney\",\n\t\"args\":[\"user1\",\"user2\",\"200\"]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/channels/mychannel/chaincodes/mycc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"channels",
+						"mychannel",
+						"chaincodes",
+						"mycc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7. Query ledger",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzY3NzE1MzcsInVzZXJuYW1lIjoic2hhc2hhbmsiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNjczNTUzN30.wSnT1RTdJkv3NJZpzaxQ7sA6i2QkH8Xsczr2PcoQi90",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:4000/api/channels/mychannel/chaincodes/mycc?peer=peer0.org1.example.com&fcn=query&args=[\"B\"]",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"channels",
+						"mychannel",
+						"chaincodes",
+						"mycc"
+					],
+					"query": [
+						{
+							"key": "peer",
+							"value": "peer0.org1.example.com"
+						},
+						{
+							"key": "fcn",
+							"value": "query"
+						},
+						{
+							"key": "args",
+							"value": "[\"B\"]"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8. Query Transaction",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzY3ODQ3MDksInVzZXJuYW1lIjoic2hhc2hhbmsiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNjc0ODcwOX0.2asvKzc-ZZwP2WDRnvv_mNfGAVVPaThAeRqqj_sm5Hw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:4000/api/channels/mychannel/transactions/755fefae5b793236720def9a2c73284770c73b2b70f2978442a853cc2c7ba101?peer=peer0.org1.example.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"channels",
+						"mychannel",
+						"transactions",
+						"755fefae5b793236720def9a2c73284770c73b2b70f2978442a853cc2c7ba101"
+					],
+					"query": [
+						{
+							"key": "peer",
+							"value": "peer0.org1.example.com"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
